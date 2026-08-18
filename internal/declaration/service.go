@@ -268,11 +268,6 @@ func (s *Service) UpdatePriority(ctx context.Context, id, actor string, priority
 	if affected == 0 {
 		return apperr.Conflict("declaration", id, decl.Version)
 	}
-	previousPriority := decl.Priority
-	decl.Priority = priority
-	decl.Version++
-	s.logger.Debug("priority update cached",
-		apperr.F("from", previousPriority), apperr.F("to", decl.Priority))
 	_ = s.audit.RecordTransition(ctx, actor, "update_priority", id,
 		domain.EntityDeclaration, fmt.Sprintf("p%d", decl.Priority), fmt.Sprintf("p%d", priority), requestID)
 	return nil

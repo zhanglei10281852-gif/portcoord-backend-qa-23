@@ -100,7 +100,7 @@ func (s *SQLiteStore) UpdateQueuePosition(ctx context.Context, id string, pos, v
 
 func (s *SQLiteStore) UpdatePriority(ctx context.Context, id string, priority, version int) (int, error) {
 	ex := s.executor(ctx)
-	res, err := ex.Exec(`UPDATE arrival_declarations SET queue_position = ?, version = version + 1, updated_at = ?
+	res, err := ex.Exec(`UPDATE arrival_declarations SET priority = ?, version = version + 1, updated_at = ?
 		WHERE id = ? AND version = ?`, priority, nowStamp(), id, version)
 	if err != nil {
 		return 0, fmt.Errorf("update priority: %w", err)
